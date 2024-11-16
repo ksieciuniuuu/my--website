@@ -1,46 +1,75 @@
 import streamlit as st
 import pandas as pd
+import time
 from io import BytesIO
+
+# Customize Streamlit's layout
+st.set_page_config(
+    page_title="Pricing Tool",
+    page_icon="💼",
+    layout="wide"  # Use 'wide' for more horizontal space
+)
+
+with st.expander("Advanced Options"):
+    advanced_setting = st.checkbox("Enable Advanced Mode")
+
+if st.button("Calculate Pricing"):
+    with st.spinner("Calculating..."):
+        time.sleep(2)  # Simulate a delay
+    st.success("Pricing calculated! (Placeholder)")
+
+def add_footer():
+    st.write("---")
+    st.markdown("""
+    <p style="text-align: center;">
+        © 2024 Pricing Tool Application | Designed for streamlined operations
+    </p>
+    """, unsafe_allow_html=True)
+
 
 # Main App Structure
 def main():
-    st.title("Pricing Tool Application")
+    st.title("💼 Pricing Tool Application")
+    st.write("Welcome to your customizable pricing tool! Use the tabs below to navigate.")
 
-    # Navigation Menu
-    menu = ["User Interface", "Admin Panel", "Historical Data", "Export PDF"]
-    choice = st.sidebar.selectbox("Menu", menu)
+    # Tabs for different sections
+    tab1, tab2, tab3, tab4 = st.tabs(["User Interface", "Admin Panel", "Historical Data", "Export PDF"])
 
-    if choice == "User Interface":
+    with tab1:
         user_interface()
-    elif choice == "Admin Panel":
+
+    with tab2:
         admin_panel()
-    elif choice == "Historical Data":
+
+    with tab3:
         historical_data()
-    elif choice == "Export PDF":
+
+    with tab4:
         export_pdf()
+    add_footer()
+
 
 # 1. User Interface
 def user_interface():
     st.subheader("User Interface: Pricing Tool")
-    
-    # Inputs
-    market = st.selectbox("Market Selection", ["Market 1", "Market 2", "Market 3"], index=0)
-    estimated_hours = st.number_input("Estimated Hours per Task", min_value=0.0, value=1.0)
-    target_audience = st.text_input("Target Audience", "Default Audience")
-    additional_options = st.multiselect("Additional Options", ["Option A", "Option B", "Option C"])
-    
-    # Discount
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        market = st.selectbox("Market Selection", ["Market 1", "Market 2", "Market 3"], index=0)
+        target_audience = st.text_input("Target Audience", "Default Audience")
+
+    with col2:
+        estimated_hours = st.number_input("Estimated Hours per Task", min_value=0.0, value=1.0)
+        additional_options = st.multiselect("Additional Options", ["Option A", "Option B", "Option C"])
+
+    st.write("### Discount")
     discount_type = st.radio("Discount Type", ["Flat Rate", "Specific Rule"])
     discount_value = st.number_input("Discount Value", min_value=0.0, value=0.0)
 
-    # Pricing Output Placeholder
     if st.button("Calculate Pricing"):
-        st.write(f"Market: {market}")
-        st.write(f"Estimated Hours: {estimated_hours}")
-        st.write(f"Target Audience: {target_audience}")
-        st.write(f"Additional Options: {', '.join(additional_options)}")
-        st.write(f"Discount Applied: {discount_value} ({discount_type})")
         st.success("Pricing calculated! (Placeholder)")
+
 
 # 2. Admin Panel
 def admin_panel():
